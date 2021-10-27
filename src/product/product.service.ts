@@ -6,8 +6,16 @@ import { Product } from './product.model';
 
 @Injectable()
 export class ProductService {
-    constructor(
-        @InjectModel('Product') private readonly productModel: Model<Product> ) { };
+    constructor(@InjectModel('Product') private readonly productModel: Model<Product> ) { };
+
+    async getProdutcs() {
+        try{
+            const products = await this.productModel.find();
+            return products;
+        }catch(err){
+            return err;
+        }
+    }
 
     async addNewProduct(
         p_name: string,
@@ -36,6 +44,15 @@ export class ProductService {
         try{
             const updatedProduct = await this.productModel.findByIdAndUpdate(id, product, {new: true});
             return updatedProduct;
+        }catch(err){
+            return err;
+        }
+    }
+
+    async deleteProduct(id:string) {
+        try{
+            const deletedProduct = await this.productModel.findByIdAndDelete(id);
+            return deletedProduct;
         }catch(err){
             return err;
         }
