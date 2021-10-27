@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UpdateProduct } from './dtos/updateProduct.dto';
+import { NewProduct, UpdateProduct } from './dtos/product.dto';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -17,24 +17,17 @@ export class ProductController {
     }
 
     @Post("new")
-    async addProduct(
-        @Body('productName') p_name: string,
-        @Body('price') price: number,
-        @Body('discount') discount: number,
-        @Body('description') desc?: object,
-        @Body('stock') stock?: number,
-        @Body('rating') rating?: number,
+    async addProduct( @Body() body: NewProduct
+        // @Body('productName') p_name: string,
+        // @Body('price') price: number,
+        // @Body('discount') discount: number,
+        // @Body('description') desc?: object,
+        // @Body('stock') stock?: number,
+        // @Body('rating') rating?: number,
     ) {
         try{
-            const productId = await this.productService.addNewProduct(
-                p_name,
-                price,
-                discount,
-                desc,
-                stock,
-                rating
-            )
-            return {newProductId:productId};
+            const newProduct = await this.productService.addNewProduct(body)
+            return newProduct;
         }catch(err){
             return err;
         }
