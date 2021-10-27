@@ -33,8 +33,8 @@ export class ProductController {
     @Post('update/:id')
     async updateProductById(@Param('id') id: string, @Body() body: UpdateProduct) {
         try{
-            const result = await this.productService.updateProductData(id, body);
-            return result;
+            const updatedProduct = await this.productService.updateProductData(id, body);
+            return updatedProduct;
         }catch(err){
             return err;
         }
